@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>XAUUSD Gold Lot Size Calculator</title>
+<style>
+body{font-family:Arial,sans-serif;background:#111;color:#eee;display:flex;justify-content:center;padding:25px}
+.card{width:100%;max-width:430px;background:#1d1d1d;padding:24px;border-radius:16px}
+h1{text-align:center;font-size:22px}
+label{display:block;margin-top:14px}
+input{width:100%;box-sizing:border-box;padding:12px;margin-top:6px;border-radius:8px;border:1px solid #555;background:#292929;color:#fff;font-size:16px}
+button{width:100%;padding:13px;margin-top:20px;border:0;border-radius:8px;background:#eee;color:#111;font-weight:bold;font-size:16px}
+.result{margin-top:20px;padding:16px;background:#292929;border-radius:10px;line-height:1.8}
+.small{font-size:12px;color:#aaa;margin-top:15px}
+</style>
+</head>
+<body>
+<div class="card">
+<h1>🥇 XAUUSD Gold Lot Size Calculator</h1>
+<label>Account Balance ($)<input id="balance" type="number" value="1000"></label>
+<label>Risk (%)<input id="risk" type="number" value="1" step="0.1"></label>
+<label>Entry Price<input id="entry" type="number" value="3350" step="0.01"></label>
+<label>Stop Loss Price<input id="sl" type="number" value="3345" step="0.01"></label>
+<button onclick="calc()">Calculate Lot Size</button>
+<div class="result" id="result">Enter values and calculate.</div>
+<div class="small">Assumption: XAUUSD contract size = 100 oz per 1.00 lot. Confirm your broker's contract specification.</div>
+</div>
+<script>
+function calc(){
+ const balance=+document.getElementById('balance').value;
+ const risk=+document.getElementById('risk').value;
+ const entry=+document.getElementById('entry').value;
+ const sl=+document.getElementById('sl').value;
+ const riskAmount=balance*risk/100;
+ const distance=Math.abs(entry-sl);
+ if(!balance||!risk||!entry||!sl||distance<=0){document.getElementById('result').innerHTML='Please enter valid values.';return;}
+ const lot=riskAmount/(distance*100);
+ document.getElementById('result').innerHTML=
+ `Risk Amount: <b>$${riskAmount.toFixed(2)}</b><br>`+
+ `SL Distance: <b>$${distance.toFixed(2)}</b><br>`+
+ `Gold Lot Size: <b>${lot.toFixed(2)} lot</b>`;
+}
+</script>
+</body>
+</html>
